@@ -19,4 +19,4 @@ ab -c100 -n1000 localhost/blahblah > fileName.txt
 
 Конфиги Gunicorn и Nginx в `config/`.
 В `/etc/nginx/nginx.conf` добавлено:
-`proxy_cache_path /home/parallels/projects/venv/ask_gabolaev/cache keys_zone=one:10m;`
+`proxy_cache_path ...ask_gabolaev/cache keys_zone=one:10m;`
