@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block headerName %}
+    <h1>Вопрос</h1>
+{% endblock %}
+{% block userPanelLogged %}{% endblock %}
+{% block content %}
+    <div class="list-group">
+        <figure class="imgWrap">
+            <img class="avatarOnPost" src="{% static question.avatar %}" alt="">
+            <figcaption>{{ question.username }}</figcaption>
+        </figure>
+        <div class="txtWrap">
+            <h4 class="list-group-item-heading">{{ question.title }}</h4>
+            <h5>{{ question.date }}</h5>
+            <div class="likes">
+                <form action="" class="btn btn-default glyphicon glyphicon-thumbs-up">{{ question.likes }}</form>
+                <form action="" class="btn btn-default glyphicon glyphicon-thumbs-down">{{ question.dislikes }}</form>
+            </div>
+        </div>
+        <hr>
+        <p>{{ question.text }}</p>
+        {% for tag in question.tags %}
+        <span class="label label-info">{{ tag }}</span>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,157 @@
+.leftline {
+    border-left: 4px solid black;
+    padding-left: 10px;
+    cursor: hand;
+}
+
+.answersCount {
+    color: #939393;
+}
+
+.questionPreviewText {
+    display: block;
+    height: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.avatarOnPost {
+    height: 64px;
+}
+
+.avatarOnNav {
+    height: 34px;
+    margin: 0 -10px 0 0;
+    float: left;
+}
+
+.textOnNav {
+    height: 34px;
+    margin-bottom: 0px;
+    font-size: 10px;
+    display: table-cell;
+    vertical-align: text-top;
+    color: #ffffff;
+}
+
+.smallctrl a {
+    text-decoration: underline;
+    margin-right: 5px;
+}
+
+.imgWrap {
+    margin: 0 20px 0 0;
+    float: left;
+}
+
+textarea {
+    resize: vertical;
+    max-lines: 20;
+}
+
+.txtWrap {
+    height: 84px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.userPanel {
+    margin: 0 40px 0 0;
+    float: left;
+}
+
+figure {
+    display: inline-block;
+    margin: 20px; /* adjust as needed */
+}
+
+figure img {
+    vertical-align: top;
+}
+
+figure figcaption {
+    text-align: center;
+}
+
+hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: solid;
+    border-color: #d6d6d6;
+    border-width: 0.5px;
+}
+
+.hottest {
+    text-align: center;
+}
+
+.cloud {
+    text-align: center;
+    font-weight: bold;
+    list-style-type: none;
+}
+
+.cloud li {
+    list-style: none;
+    display: inline;
+    color: #a4002e;
+}
+
+.rating li {
+    list-style: none;
+    text-align: center;
+    color: #006cd7;
+}
+
+ul {
+    -webkit-padding-start: 0;
+}
+
+ul a {
+    color: inherit;
+}
+
+.pr7 {
+    font-size: 25px;
+    opacity: 0.9;
+}
+
+.pr6 {
+    font-size: 23px;
+    opacity: 0.8;
+}
+
+.pr5 {
+    font-size: 21px;
+    opacity: 0.7;
+}
+
+.pr4 {
+    font-size: 18px;
+    opacity: 0.6;
+}
+
+.pr3 {
+    font-size: 15px;
+    opacity: 0.5;
+}
+
+.pr2 {
+    font-size: 13px;
+    opacity: 0.4;
+}
+
+.pr1 {
+    font-size: 11px;
+    opacity: 0.3;
+}
+
+.likes {
+    margin: 10px 0 9px 0;
+}
+
+.likes .btn {
+    font-size: 15px;
+    font-weight: bold;
+    vertical-align: top;
+}
