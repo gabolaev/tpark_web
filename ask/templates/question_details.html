@@ -23,7 +23,26 @@
         <hr>
         <p>{{ question.text }}</p>
         {% for tag in question.tags %}
-        <span class="label label-info">{{ tag }}</span>
+            <span class="label label-info">{{ tag }}</span>
         {% endfor %}
     </div>
+    {% for answer in question.answers.values %}
+        <div class="list-group">
+            <div href="#" class="list-group-item">
+                <figure class="imgWrap">
+                    <img class="avatarOnPost" src="{% static answer.avatar %}" alt="">
+                    <figcaption>{{ answer.username }}</figcaption>
+                </figure>
+                <div class="txtWrap">
+                    <div class="list-group-item-heading">
+                        {{ answer.text }}
+                    </div>
+                    <div class="likes">
+                        <form action="" class="btn btn-success glyphicon glyphicon-thumbs-up">{{ answer.likes }}</form>
+                        <form action="" class="btn btn-danger glyphicon glyphicon-thumbs-down">{{ answer.dislikes }}</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}

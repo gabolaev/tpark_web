@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block userBar %}
+{% endblock %}
+
+{% block styles %}
+    <link href="{% static 'css/login.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="main">
+        <div class="alert alert-danger" role="alert">
+            <b>Ошибка!</b> Неверная комбинация логина и пароля...
+        </div>
+        <h3>Войдите, пожалуйста, или <a href="{% url 'ask:signup' %}">зарегистрируйтесь</a></h3>
+        <form role="form">
+            <div class="form-group">
+                <label for="inputUsernameEmail">Логин или email</label>
+                <input type="text" class="form-control" id="inputUsernameEmail">
+            </div>
+            <div class="form-group">
+                <a class="pull-right" href="http://www.rost-intellekta.ru/">Забыли пароль?</a>
+                <label for="inputPassword">Пароль</label>
+                <input type="password" class="form-control" id="inputPassword">
+            </div>
+            <div class="checkbox pull-right">
+                <label>
+                    <input type="checkbox">
+                    Запомнить </label>
+            </div>
+            <a href="{% url 'ask:newest' %}">
+                <button type="button" class="btn btn-success">Войти</button>
+            </a>
+        </form>
+    </div>
+{% endblock %}

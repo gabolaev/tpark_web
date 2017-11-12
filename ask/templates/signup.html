@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block headerName %}
+    <h1>Регистрация</h1>
+{% endblock %}
+
+{% block userBar %}
+{% endblock %}
+
+{% block content %}
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="login">Логин</label>
+                <div class="col-md-4">
+                    <input id="login" maxlength="15" name="login" type="text" placeholder="mrfreeman"
+                           class="form-control input-md"
+                           required="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="email">Почта</label>
+                <div class="col-md-4">
+                    <input id="email" name="email" type="text" placeholder="gabolaev@nlogn.ru"
+                           class="form-control input-md" required="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="nickname">Никнейм</label>
+                <div class="col-md-4">
+                    <input id="nickname" maxlength="30" name="nickname" type="text" placeholder="freeman"
+                           class="form-control input-md"
+                           required="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="nickname">Пароль</label>
+                <div class="col-md-4">
+                    <input id="nickname" minlength="6" name="nickname" type="password" class="form-control input-md"
+                           required="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="nickname">Повторите пароль</label>
+                <div class="col-md-4">
+                    <input id="nickname" minlength="6" name="nickname" type="password" class="form-control input-md"
+                           required="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="avatar">Аватар</label>
+                <div class="col-md-4">
+                    <img height="70px" src="{% static 'avatars/emptyUser.png' %}" id="avatar">
+                    <button type="button" class="btn btn-info" id="avatar">Загрузить</button>
+                </div>
+            </div>
+            <div class="alert alert-danger" role="alert">
+                <b>Ошибка!</b> Никнейм уже используется...
+            </div>
+
+            <div class="alert alert-danger" role="alert">
+                <b>Ошибка!</b> Почта уже используется...
+            </div>
+
+            <div class="alert alert-danger" role="alert">
+                <b>Ошибка!</b> Невозможно открыть файл
+            </div>
+        </fieldset>
+        <div style="margin-bottom: 20px">
+            <div class="btn-group" role="group" aria-label="...">
+                <a href="{% url 'ask:newest' %}" style="text-decoration: none">
+                    <button type="button" class="btn btn-success">Сохранить</button>
+                </a>
+            </div>
+            <div class="btn-group" role="group" aria-label="...">
+                <a href="{% url 'ask:guest' %}">
+                    <button type="button" class="btn btn-danger">Отмена</button>
+                </a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

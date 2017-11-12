@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block userBar %}
+    <ul class="navbar-form navbar-right">
+        <div class="btn-group" role="group" aria-label="...">
+            <a href="{% url 'ask:signup' %}">
+                <button type="button" class="btn btn-success">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+            </a>
+        </div>
+    </ul>
+    <ul class="navbar-form navbar-right">
+        <div class="btn-group" role="group" aria-label="...">
+            <a href="{% url 'ask:signin' %}">
+                <button type="button" class="btn btn-primary">ВОЙТИ</button>
+            </a>
+        </div>
+    </ul>
+{% endblock %}
