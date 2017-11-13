@@ -142,19 +142,22 @@ def signup(request):
 def question_detailed(request, question_id):
     return render(request, 'question_details.html', {'question': questions_list[question_id]})
 
+
 # TODO: make tags clickable
 def questions_by_tag(request, tag):
     return renderFeedWithPagination(request,
-                header="По тегу: {}".format(tag),
-                questions_list=dict(enumerate([questions_list[i] for i in questions_list if tag in questions_list[i]['tags']])))
+                                    header="По тегу: {}".format(tag),
+                                    questions_list=dict(enumerate([questions_list[i] for i in questions_list if
+                                                                   tag in questions_list[i]['tags']])))
 
 
 def hottest(request):
     return renderFeedWithPagination(request,
-                       dict(enumerate(sorted(questions_list.values(), key=lambda x: x['likes'] / x['dislikes']))),
-                       header='Лучшее',
-                       link='/',
-                       link_text='Главная')
+                                    dict(enumerate(
+                                        sorted(questions_list.values(), key=lambda x: x['likes'] / x['dislikes']))),
+                                    header='Лучшее',
+                                    link='/',
+                                    link_text='Главная')
 
 
 def new(request):
