@@ -151,7 +151,7 @@ def questions_by_tag(request, tag):
 
 def hottest(request):
     return renderFeedWithPagination(request,
-                       dict(enumerate(sorted(questions_list.values(), key=lambda x: x['likes'] / x['dislikes'], reverse=True))),
+                       dict(enumerate(sorted(questions_list.values(), key=lambda x: x['likes'] / x['dislikes']))),
                        header='Лучшее',
                        link='/',
                        link_text='Главная')
