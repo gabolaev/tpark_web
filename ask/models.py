@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
+from ask.managers import *
 
 
 class User(AbstractUser):
@@ -13,18 +14,22 @@ class User(AbstractUser):
 
 
 class Tag(models.Model):
-    title = models.CharField(max_length=50, verbose_name='Тэг')
+    title = models.CharField(default='404', max_length=50, verbose_name='Тэг')
+
+    objects = TagManager()
 
 class Question(models.Model):
-    author = models.ForeignKey(User, null=False, verbose_name='Автор вопроса')
+    author = models.ForeignKey(User, null=False, db_column="author", verbose_name='Автор вопроса')
     date = models.DateTimeField(default=timezone.now, verbose_name='Время создания вопроса')
 
     is_active = models.BooleanField(default=True, verbose_name='Доступность вопроса')
     title = models.CharField(max_length=70, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Полный текст вопроса')
 
-    tags = models.ManyToManyField(Tag, blank=True, verbose_name='Тэги')
+    tags = models.ManyToManyField(Tag, related_name='questions', blank=True, verbose_name='Тэги')
     rate = models.IntegerField(default=0, null=False, verbose_name='Рейтинг')
+
+    objects = QuestionManager()
 
     def __str__(self):
         return self.text
@@ -33,7 +38,7 @@ class Answer(models.Model):
     author = models.ForeignKey(User, null=False, verbose_name='Автор ответа')
     date = models.DateTimeField(default=timezone.now, verbose_name='Время ответа')
 
-    question = models.ForeignKey(Question, verbose_name='Вопрос, на который выполняется ответ')
+    question = models.ForeignKey(Question, related_name='answers', verbose_name='Вопрос, на который выполняется ответ')
     text = models.TextField(verbose_name='Полный текст вопроса')
     rate = models.IntegerField(default=0, null=False, verbose_name='Рейтинг')
 
