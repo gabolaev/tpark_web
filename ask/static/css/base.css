@@ -8,9 +8,9 @@
     color: #939393;
 }
 
-.label .label-info:hover{
-    background-color: #c9302c;
-}
+/*.label .label-info:hover{*/
+    /*background-color: #c9302c;*/
+/*}*/
 .questionPreviewText {
     display: block;
     height: 60px;
