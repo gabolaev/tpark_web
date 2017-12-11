@@ -3,12 +3,10 @@ from __future__ import unicode_literals
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
+from django.contrib.auth import authenticate, login
 
 from ask.models import *
-
-
-def guest(request):
-    return render(request, 'guest.html')
+from .forms import UserSignUpForm
 
 
 def signin(request):
@@ -16,7 +14,29 @@ def signin(request):
 
 
 def signup(request):
-    return render(request, 'signup.html')
+    errors = []
+    if request.method == 'POST':
+        form = UserSignUpForm(request.POST)
+        if request.POST['password'] != request.POST['password_confirmation']:
+            errors.append('Passwords don\'t match')
+        if form.is_valid():
+            user = User.objects.create(username=request.POST['username'],
+                                       email=request.POST['email'],
+                                       first_name=request.POST['first_name'],
+                                       last_name=request.POST['last_name'])
+            user.set_password(request.POST['password_confirmation'])
+            user.save()
+            login(request, user)
+            print(user.is_authenticated)
+            return render(request, 'feed.html', {'messages': ['Thanks for registration']})
+        else:
+            for i in form.errors:
+                errors.append(form._errors[i][0])
+
+    else:
+        form = UserSignUpForm
+
+    return render(request, 'signup.html', {'form': form, 'messages': errors})
 
 
 def question_detailed(request, question_id):
@@ -63,34 +83,3 @@ def renderFeedWithPagination(request, questions_list, header, link='/hot', link_
                    'questions_list': questions,
                    'link': link,
                    'link_text': link_text})
-
-
-    # import random
-    # import lorem
-    #
-    # for i in range(126, 525):
-    #     try:
-    #         q = Question.objects.by_id(i).first()
-    #         for j in range(random.randint(1,10)):
-    #             t = Tag.objects.get_or_create(title=max(lorem.sentence().split()))[0]
-    #             q.tags.add(t)
-    #             q.save()
-    #     except Exception as e:
-    #         print(e)
-
-    # q = Question(author=u, title=lorem.sentence(), text=lorem.text())
-    # print(pk)
-    # q.tags.get_or_create(title='test')
-    #
-    # questions_list[str(i)] = {
-    #     'id': i,
-    #     'uid': random.randrange(1000),
-    #     'avatar': 'avatars/user{}.png'.format(random.randrange(1, 8)),
-    #     'username': names.get_first_name(),
-    #     'title': lorem.sentence(),
-    #     'text': lorem.text(),
-    #     'date': '11.09.2001',
-    #     'tags': },
-    #     'likes': random.randrange(20000),
-    #     'dislikes': random.randrange(20000),
-    # }

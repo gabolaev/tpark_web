@@ -1,5 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser, UserManager as AbstractUserManager
 
+class UserManager(AbstractUserManager):
+    def by_username(self, findUname):
+        return self.all().filter(username=findUname)
 
 class QuestionManager(models.Manager):
     def hottest(self):

@@ -43,7 +43,7 @@
                     <div class="textOnNav">
                         <h5 class="list-group-item-heading">gabolaev</h5>
                         <div class="smallctrl">
-                            <a href="{% url 'ask:guest' %}">выход</a>
+{#                            <a href="{% url 'ask:guest' %}">выход</a>#}
                         </div>
                     </div>
                 </ul>
@@ -84,6 +84,11 @@
 </div>
 <div class="container">
     <div class="col-md-10 text-left">
+        {% for i in messages %}
+            <div class="alert alert-danger" role="alert">
+                <p>{{ i }}</p>
+            </div>
+        {% endfor %}
         {% block content %}{% endblock %}
     </div>
 

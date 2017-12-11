@@ -9,7 +9,6 @@ urlpatterns = [
     url(r'^questions/tag/(?P<tag_str>\w+)/$', questions_by_tag, name='questions_by_tag'),
     url(r'^questions/new/$', new, name='new'),
     url(r'^hot$', hottest, name='hottest_questions'),
-    url(r'^guest$', guest, name='guest'),
     url(r'^signin$', signin, name='signin'),
     url(r'^signup$', signup, name='signup'),
     # url(r'^parse_request/.*', requestsPrint),
