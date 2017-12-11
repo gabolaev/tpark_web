@@ -158,3 +158,18 @@ ul a {
     font-weight: bold;
     vertical-align: top;
 }
+
+
+.input-group-addon{
+    background-color: #c12525;
+    border: #222;
+}
+
+.glyphicon{
+    top: 1pt;
+}
+
+
+.glyphicon-search:before {
+    padding-left: 1pt;
+}

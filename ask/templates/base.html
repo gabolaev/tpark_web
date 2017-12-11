@@ -5,48 +5,89 @@
 <head>
     <title>NLog(ASK)</title>
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}"> {% block styles %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <meta name="viewport" content="width=device-width; initial-scale=1">
+
+    {% block styles %}{% endblock %}
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                <a class="navbar-brand" style="font-size: 30px; font-family: 'Ubuntu Mono derivative Powerline'; font-weight: bold" href="/">ask_gabolaev</a>
-            </div>
-            <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false" style="height: 2px;">
-                <ul class="navbar-form navbar-left">
-                    <div class="form-search search-only">
-                        <input type="text" class="form-control search-query">
+            <a class="navbar-brand"
+               style="font-size: 30px; font-family: 'Ubuntu Mono derivative Powerline'; font-weight: bold" href="/">ask_gabolaev</a>
+        </div>
+        <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false"
+             style="height: 2px;">
+            <ul class="navbar-form navbar-left">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon">
                         <i class="search-icon glyphicon glyphicon-search"></i>
                     </div>
-                </ul>
-                {% block userBar %}
-                {% endblock %}
-            </div>
-        </div>
-    </nav>
-    <div class="container">
-        <div class="page-header">
-            <div class="row">
-                <div class="col-md-12">
-                    {% block headerName %}{% endblock %}
+                    <input type="text" class="form-control search-query">
                 </div>
+            </ul>
+            {% if user.is_authenticated %}
+                <ul class="navbar-form navbar-right">
+                    <div class="imgWrap">
+                        <img class="avatarOnNav" src="{% static 'avatars/user1.png' %}" alt="">
+                    </div>
+                    <div class="textOnNav">
+                        <h5 class="list-group-item-heading">gabolaev</h5>
+                        <div class="smallctrl">
+                            <a href="{% url 'ask:guest' %}">выход</a>
+                        </div>
+                    </div>
+                </ul>
+                <ul class="navbar-form navbar-right">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <a href="{% url 'ask:new' %}">
+                            <button type="button" class="btn btn-success">ЗАДАТЬ ВОПРОС</button>
+                        </a>
+                    </div>
+                </ul>
+            {% else %}
+                <ul class="navbar-form navbar-right">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <a href="{% url 'ask:signup' %}">
+                            <button type="button" class="btn btn-success">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+                        </a>
+                    </div>
+                </ul>
+                <ul class="navbar-form navbar-right">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <a href="{% url 'ask:signin' %}">
+                            <button type="button" class="btn btn-primary">ВОЙТИ</button>
+                        </a>
+                    </div>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-12">
+                {% block headerName %}{% endblock %}
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="col-md-10 text-left">
-            {% block content %}{% endblock %}
-        </div>
+</div>
+<div class="container">
+    <div class="col-md-10 text-left">
+        {% block content %}{% endblock %}
+    </div>
 
-        {% block tops %}
+    {% block tops %}
         <div class="col-sm-2 sidenav">
             <div class="well well-sm">
                 <div class="hottest">
@@ -83,10 +124,10 @@
                 </ul>
             </div>
         </div>
-        {% endblock %}
-    </div>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="{% static 'js/bootstrap.js' %}"></script>
+    {% endblock %}
+</div>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
 </body>
 
 </html>
