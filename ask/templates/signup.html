@@ -2,37 +2,30 @@
 
 {% load static %}
 
-{% block headerName %}
-    <h1>Регистрация</h1>
+{% block styles %}
+    <link href="{% static 'css/login.css' %}" rel="stylesheet">
 {% endblock %}
 
-{% block userBar %}
+{% block headerName %}
+    <h1>Sign up</h1>
 {% endblock %}
 
 {% block content %}
-    <form class="form-horizontal" action="{% url 'ask:signup' %}" method="post">
-        {% csrf_token %}
-        <fieldset>
-            {% for item in form %}
-                <div class="form-group">
-                    <div class="col-md-6">
-                        {{ item }}
+    <div class="main">
+        <form class="form-horizontal" action="{% url 'ask:signup' %}" method="post">
+            {% csrf_token %}
+            <div class="col-md-16">
+                <fieldset>
+                    {% for item in form %}
+                        <div class="form-group">
+                            {{ item }}
+                        </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <input type="submit" value="Register" class="btn btn-success"/>
                     </div>
-                </div>
-            {% endfor %}
-            <input type="submit" value="Register" class="btn btn-success"/>
-        </fieldset>
-{#                    <div style="margin-bottom: 20px">#}
-        {#            <div class="btn-group" role="group" aria-label="...">#}
-        {#                <a href="{% url 'ask:newest' %}" style="text-decoration: none">#}
-        {#                    <button type="button" class="btn btn-success">Сохранить</button>#}
-        {#                </a>#}
-        {#            </div>#}
-        {#            <div class="btn-group" role="group" aria-label="...">#}
-        {#    <a href="{% url 'ask:guest' %}"> TODO#}
-        {#                <button type="button" class="btn btn-danger">Отмена</button>#}
-        {#    </a>#}
-        {#            </div>#}
-        {#        </div>#}
-    </form>
+                </fieldset>
+            </div>
+        </form>
+    </div>
 {% endblock %}

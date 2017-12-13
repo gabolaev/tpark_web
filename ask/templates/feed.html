@@ -3,32 +3,11 @@
 {% load static %}
 
 {% block userBar %}
-    <ul class="navbar-form navbar-right">
-        <div class="imgWrap">
-            <img class="avatarOnNav" src="{% static 'avatars/user1.png' %}" alt="">
-        </div>
-        <div class="textOnNav">
-            <h5 class="list-group-item-heading">gabolaev</h5>
-            <div class="smallctrl">
-                <!--<a href="/settings">настройки</a>-->
-{#                <a href="{% url 'ask:guest' %}">выход</a>#}
-            </div>
-        </div>
-    </ul>
-    <ul class="navbar-form navbar-right">
-        <div class="btn-group" role="group" aria-label="...">
-            <a href="{% url 'ask:new' %}">
-                <button type="button" class="btn btn-success">ЗАДАТЬ ВОПРОС</button>
-            </a>
-        </div>
-    </ul>
 {% endblock %}
 
 {% block userPanelNotLogged %}
 
 {% endblock %}
-
-
 
 {% block headerName %}
     <h1>

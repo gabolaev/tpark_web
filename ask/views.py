@@ -1,16 +1,56 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
 
 from ask.models import *
-from .forms import UserSignUpForm
+from .forms import *
+
+
+@login_required(login_url='/signin/')
+def settings(request):
+    errors = []
+    if request.method == 'POST':
+        form = UserSettingsForm(request.POST)
+        if form.is_valid():
+            if 'username' in form.changed_data:
+                request.user.username = request.POST['username']
+            if 'email' in form.changed_data:
+                request.user.email = request.POST['email']
+
+            request.user.save()
+            return redirect('/')
+        else:
+            for i in form.errors:
+                errors.append(form._errors[i][0])
+    else:
+        form = UserSettingsForm
+    return render(request, 'settings.html', {'form': form, 'messages': errors})
 
 
 def signin(request):
-    return render(request, 'signin.html')
+    errors = []
+    form = UserSignInForm
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(request.GET.get('next'))
+        else:
+            errors.append('Invalid username or password')
+
+    return render(request, 'signin.html', {'form': form, 'messages': errors})
+
+
+@login_required(login_url='/signin/')
+def signout(request):
+    logout(request)
+    return redirect('/')
 
 
 def signup(request):
@@ -19,7 +59,7 @@ def signup(request):
         form = UserSignUpForm(request.POST)
         if request.POST['password'] != request.POST['password_confirmation']:
             errors.append('Passwords don\'t match')
-        if form.is_valid():
+        elif form.is_valid():
             user = User.objects.create(username=request.POST['username'],
                                        email=request.POST['email'],
                                        first_name=request.POST['first_name'],
@@ -27,12 +67,10 @@ def signup(request):
             user.set_password(request.POST['password_confirmation'])
             user.save()
             login(request, user)
-            print(user.is_authenticated)
-            return render(request, 'feed.html', {'messages': ['Thanks for registration']})
+            return redirect('/')
         else:
             for i in form.errors:
                 errors.append(form._errors[i][0])
-
     else:
         form = UserSignUpForm
 
@@ -57,6 +95,7 @@ def hottest(request):
                                     link_text='Новое')
 
 
+@login_required(login_url='/signin/')
 def new(request):
     return render(request, 'new_question.html')
 

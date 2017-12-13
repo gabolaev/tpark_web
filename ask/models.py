@@ -5,7 +5,7 @@ from ask.managers import *
 
 
 class User(AbstractUser):
-    upload = models.ImageField(default="/ask/static/avatars/emptyUser.png", upload_to='uploads/%Y/%m/%d/')
+    upload = models.ImageField(default="avatars/emptyUser.png", upload_to='uploads/%Y/%m/%d/')
     register_date = models.DateTimeField(default=timezone.now, verbose_name='Время создания профиля')
     rank = models.IntegerField(default=0, verbose_name='rate of user')
 
