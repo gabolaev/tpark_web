@@ -34,16 +34,19 @@ def settings(request):
 def signin(request):
     errors = []
     form = UserSignInForm
+
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(request.GET.get('next'))
+            return redirect(request.GET.get('next') if request.GET.get('next') != '' else '/')
         else:
             errors.append('Invalid username or password')
 
+    logout(request)
     return render(request, 'signin.html', {'form': form, 'messages': errors})
 
 
@@ -72,6 +75,7 @@ def signup(request):
             for i in form.errors:
                 errors.append(form._errors[i][0])
     else:
+        logout(request)
         form = UserSignUpForm
 
     return render(request, 'signup.html', {'form': form, 'messages': errors})
@@ -111,10 +115,8 @@ def renderFeedWithPagination(request, questions_list, header, link='/hot', link_
     try:
         questions = paginator.page(page)
     except PageNotAnInteger:
-        # Если не запрошена никакая страница через GET параметры, то вернуть первую
         questions = paginator.page(1)
     except EmptyPage:
-        # Если запрашиваемая страница больше, чем страниц всего.
         questions = paginator.page(paginator.num_pages)
 
     return render(request, 'feed.html',
