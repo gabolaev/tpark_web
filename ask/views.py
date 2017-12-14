@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.utils import timezone
+import pytz
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -34,7 +36,6 @@ def settings(request):
 def signin(request):
     errors = []
     form = UserSignInForm
-
 
     if request.method == 'POST':
         username = request.POST['username']
@@ -82,7 +83,7 @@ def signup(request):
 
 
 def question_detailed(request, question_id):
-    return render(request, 'question_details.html', {'question': Question.objects.by_id(question_id).first()})
+    return render(request, 'question_details.html', {'question': Question.objects.by_id(int(question_id)).first()})
 
 
 def questions_by_tag(request, **kwargs):
@@ -101,7 +102,25 @@ def hottest(request):
 
 @login_required(login_url='/signin/')
 def new(request):
-    return render(request, 'new_question.html')
+    errors = []
+    if request.method == 'POST':
+        form = NewQuestionForm(request.POST)
+        if form.is_valid():
+            question = Question.objects.create(author=request.user,
+                                               date=timezone.now(),
+                                               is_active=True,
+                                               title=request.POST['title'],
+                                               text=request.POST['text'])
+            question.save()
+            for tagTitle in request.POST['tags'].split():
+                tag = Tag.objects.get_or_create(title=tagTitle)[0]
+                question.tags.add(tag)
+            question.save()
+            return redirect('/')
+    else:
+        form = NewQuestionForm
+
+    return render(request, 'new_question.html', {'form': form, 'messages': errors})
 
 
 def newest(request):

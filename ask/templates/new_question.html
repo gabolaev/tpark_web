@@ -1,34 +1,26 @@
 {% extends 'base.html' %}
 
 {% block headerName %}
-    <h1>Создать вопрос</h1>
+    <h1>New question</h1>
 {% endblock %}
 
 {% block content %}
-    <div class="alert alert-danger" role="alert">
-        <b>Ошибка!</b> Заполните требуемые поля...
-    </div>
-    <div class="form-group">
-        <label for="inputsm">Заголовок</label>
-        <input class="form-control input-sm" id="inputsm" type="text">
-    </div>
-    <div class="form-group">
-        <label for="comment">Текст</label>
-        <textarea class="form-control" rows="10" id="comment"></textarea>
-    </div>
-    <div class="form-group">
-        <label for="tags">Тэги</label>
-        <textarea class="form-control" rows="1" id="tags"></textarea>
-    </div>
-    <div class="btn-group" role="group" aria-label="...">
-        <a href="{% url 'ask:newest' %}" style="text-decoration: none">
-            <button type="button" class="btn btn-success">СПРОСИТЬ</button>
-        </a>
-    </div>
-    <div class="btn-group" role="group" aria-label="...">
-        <a href="{% url 'ask:newest' %}">
-            <button type="button" class="btn btn-danger">ОТМЕНА</button>
-        </a>
-    </div>
 
+    <div class="main">
+        <form class="form-horizontal" action="{% url 'ask:new' %}" method="post">
+            {% csrf_token %}
+            <div class="col-md-12">
+                <fieldset>
+                    {% for item in form %}
+                        <div class="form-group">
+                            {{ item }}
+                        </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <input type="submit" value="Register" class="btn btn-success"/>
+                    </div>
+                </fieldset>
+            </div>
+        </form>
+    </div>
 {% endblock %}
