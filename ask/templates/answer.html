@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block headerName %}
+    <h1>Write the answer</h1>
+{% endblock %}
+
+{% block styles %}
+    <link href="{% static 'css/login.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+        <form class="form-horizontal" action="{{ request.path }}" method="post">
+            {% csrf_token %}
+            <div class="col-md-12">
+                <div class="form-group">{{ form.text }}</div>
+            </div>
+            <input type="submit" value="Answer" class="btn btn-success"/>
+        </form>
+{% endblock %}

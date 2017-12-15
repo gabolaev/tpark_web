@@ -5,7 +5,11 @@
 {% block headerName %}
     <h1>Вопрос</h1>
 {% endblock %}
-{% block userPanelLogged %}{% endblock %}
+
+{% block styles %}
+    <link href="{% static 'css/question_details.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
     <div class="list-group">
         <figure class="imgWrap">
@@ -18,6 +22,9 @@
             <div class="likes">
                 <form action="" class="btn btn-default glyphicon glyphicon-thumbs-up">{{ question.likes }}</form>
                 <form action="" class="btn btn-default glyphicon glyphicon-thumbs-down">{{ question.dislikes }}</form>
+                <a href="{{ request.path }}write_answer/">
+                    <button type="button" class="btn btn-success">Ответить</button>
+                </a>
             </div>
         </div>
         <hr>
@@ -28,21 +35,24 @@
             </a>
         {% endfor %}
     </div>
-    {% for answer in question.answers.all%}
+    {% for answer in question.answers.all reversed %}
         <div class="list-group">
             <div href="#" class="list-group-item">
                 <figure class="imgWrap">
                     <img class="avatarOnPost" src="{% static answer.author.upload %}" alt="">
                     <figcaption>{{ answer.author.username }}</figcaption>
                 </figure>
+
                 <div class="txtWrap">
                     <div class="list-group-item-heading">
-                        {{ answer.text }}
+                        <b>{{ answer.text }}</b>
                     </div>
-                    <div class="likes">
+                    <hr>
+                    <div class="answer likes">
                         <form action="" class="btn btn-success glyphicon glyphicon-thumbs-up">{{ answer.likes }}</form>
                         <form action="" class="btn btn-danger glyphicon glyphicon-thumbs-down">{{ answer.dislikes }}</form>
                     </div>
+                    {{ answer.date }}
                 </div>
             </div>
         </div>

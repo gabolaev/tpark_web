@@ -1,6 +1,6 @@
 from django import forms
 
-from ask.models import User, Question
+from ask.models import User, Question, Answer
 
 
 class UserSignUpForm(forms.ModelForm):
@@ -67,3 +67,12 @@ class NewQuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ('title', 'text', 'tags',)
+
+
+class WriteAnswerForm(forms.ModelForm):
+    text = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control',
+                                                        'placeholder': 'Enter your reply text'}))
+
+    class Meta:
+        model = Answer
+        fields = ('text',)

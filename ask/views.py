@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.utils import timezone
-import pytz
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -116,11 +114,29 @@ def new(request):
                 tag = Tag.objects.get_or_create(title=tagTitle)[0]
                 question.tags.add(tag)
             question.save()
-            return redirect('/')
+            return question_detailed(request, question.id)
     else:
         form = NewQuestionForm
 
     return render(request, 'new_question.html', {'form': form, 'messages': errors})
+
+
+@login_required(login_url='/signin/')
+def write_answer(request, question_id):
+    if request.method == 'POST':
+        form = WriteAnswerForm(request.POST)
+        if form.is_valid():
+            answeredQuestion = Question.objects.by_id(question_id)[0]
+            newAnswer = Answer.objects.create(author=request.user,
+                                              date=timezone.now(),
+                                              text=request.POST['text'],
+                                              question_id=answeredQuestion.id)
+            newAnswer.save()
+            return question_detailed(request, question_id)
+    else:
+        form = WriteAnswerForm
+
+    return render(request, 'answer.html', {'form': form})
 
 
 def newest(request):
