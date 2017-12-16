@@ -4,10 +4,17 @@ from __future__ import unicode_literals
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import Http404
 from django.shortcuts import render, redirect
 
 from ask.models import *
 from .forms import *
+
+
+def fillErrors(formErrors, errors):
+    for i in formErrors:
+        formattedFieldName = i.replace('_', ' ')
+        errors.append(f' { formattedFieldName } field error: {formErrors[i][0]}')
 
 
 @login_required(login_url='/signin/')
@@ -24,8 +31,7 @@ def settings(request):
             request.user.save()
             return redirect('/')
         else:
-            for i in form.errors:
-                errors.append(form._errors[i][0])
+            fillErrors(form.errors, errors)
     else:
         form = UserSettingsForm
     return render(request, 'settings.html', {'form': form, 'messages': errors})
@@ -71,8 +77,7 @@ def signup(request):
             login(request, user)
             return redirect('/')
         else:
-            for i in form.errors:
-                errors.append(form._errors[i][0])
+            fillErrors(form.errors, errors)
     else:
         logout(request)
         form = UserSignUpForm
@@ -81,7 +86,11 @@ def signup(request):
 
 
 def question_detailed(request, question_id):
-    return render(request, 'question_details.html', {'question': Question.objects.by_id(int(question_id)).first()})
+    question = Question.objects.by_id(int(question_id)).first()
+    if question is not None:
+        return render(request, 'question_details.html', {'question': question})
+    else:
+        raise Http404
 
 
 def questions_by_tag(request, **kwargs):
@@ -103,6 +112,7 @@ def new(request):
     errors = []
     if request.method == 'POST':
         form = NewQuestionForm(request.POST)
+
         if form.is_valid():
             question = Question.objects.create(author=request.user,
                                                date=timezone.now(),
@@ -113,8 +123,10 @@ def new(request):
             for tagTitle in request.POST['tags'].split():
                 tag = Tag.objects.get_or_create(title=tagTitle)[0]
                 question.tags.add(tag)
-            question.save()
+                question.save()
             return question_detailed(request, question.id)
+        else:
+            fillErrors(form.errors, errors)
     else:
         form = NewQuestionForm
 
@@ -123,20 +135,26 @@ def new(request):
 
 @login_required(login_url='/signin/')
 def write_answer(request, question_id):
-    if request.method == 'POST':
-        form = WriteAnswerForm(request.POST)
-        if form.is_valid():
-            answeredQuestion = Question.objects.by_id(question_id)[0]
-            newAnswer = Answer.objects.create(author=request.user,
-                                              date=timezone.now(),
-                                              text=request.POST['text'],
-                                              question_id=answeredQuestion.id)
-            newAnswer.save()
-            return question_detailed(request, question_id)
-    else:
-        form = WriteAnswerForm
+    errors = []
+    if Question.objects.filter(id=question_id).exists():
+        if request.method == 'POST':
+            form = WriteAnswerForm(request.POST)
+            if form.is_valid():
+                answeredQuestion = Question.objects.by_id(question_id)[0]
+                newAnswer = Answer.objects.create(author=request.user,
+                                                  date=timezone.now(),
+                                                  text=request.POST['text'],
+                                                  question_id=answeredQuestion.id)
+                newAnswer.save()
+                return redirect(f'/questions/{ question_id }/#{ newAnswer.id }')
+            else:
+                fillErrors(form.errors, errors)
+        else:
+            form = WriteAnswerForm
 
-    return render(request, 'answer.html', {'form': form})
+        return render(request, 'answer.html', {'form': form, 'messages': errors})
+    else:
+        raise Http404
 
 
 def newest(request):
@@ -144,7 +162,7 @@ def newest(request):
 
 
 def renderFeedWithPagination(request, questions_list, header, link='/hot', link_text="Лучшее"):
-    paginator = Paginator(questions_list, 4)
+    paginator = Paginator(questions_list, 30)
 
     page = request.GET.get('page')
     try:
