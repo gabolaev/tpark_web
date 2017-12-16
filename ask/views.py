@@ -95,16 +95,14 @@ def question_detailed(request, question_id):
 
 def questions_by_tag(request, **kwargs):
     return renderFeedWithPagination(request,
-                                    header="По тегу: {}".format(kwargs.get('tag_str')),
+                                    header="By tag: {}".format(kwargs.get('tag_str')),
                                     questions_list=Tag.objects.by_tag(kwargs.get('tag_str')))
 
 
 def hottest(request):
     return renderFeedWithPagination(request,
                                     Question.objects.hottest(),
-                                    header='Лучшее',
-                                    link='/',
-                                    link_text='Новое')
+                                    link='/',)
 
 
 @login_required(login_url='/signin/')
@@ -158,10 +156,10 @@ def write_answer(request, question_id):
 
 
 def newest(request):
-    return renderFeedWithPagination(request, Question.objects.newest(), header='Новое')
+    return renderFeedWithPagination(request, Question.objects.newest())
 
 
-def renderFeedWithPagination(request, questions_list, header, link='/hot', link_text="Лучшее"):
+def renderFeedWithPagination(request, questions_list, link='/hot'):
     paginator = Paginator(questions_list, 30)
 
     page = request.GET.get('page')
@@ -173,7 +171,5 @@ def renderFeedWithPagination(request, questions_list, header, link='/hot', link_
         questions = paginator.page(paginator.num_pages)
 
     return render(request, 'feed.html',
-                  {'header': header,
-                   'questions_list': questions,
-                   'link': link,
-                   'link_text': link_text})
+                  {'questions_list': questions,
+                   'link': link})

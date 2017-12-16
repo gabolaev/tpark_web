@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block headerName %}
-    <h1>Вопрос</h1>
+    <h1>Question</h1>
 {% endblock %}
 
 {% block styles %}
@@ -23,7 +23,7 @@
                 <form action="" class="btn btn-default glyphicon glyphicon-thumbs-up">{{ question.likes }}</form>
                 <form action="" class="btn btn-default glyphicon glyphicon-thumbs-down">{{ question.dislikes }}</form>
                 <a href="/questions/{{ question.id }}/write_answer/">
-                    <button type="button" class="btn btn-success">Ответить</button>
+                    <button type="button" class="btn btn-success">Answer</button>
                 </a>
             </div>
         </div>
@@ -35,7 +35,7 @@
             </a>
         {% endfor %}
     </div>
-    {% for answer in question.answers.all reversed %}
+    {% for answer in question.answers.all %}
         <div class="list-group">
             <div id="{{ answer.id }}" class="list-group-item">
                 <figure class="imgWrap">

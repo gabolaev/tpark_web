@@ -3,7 +3,7 @@
 {% load static %}
 
 <head>
-    <title>NLog(ASK)</title>
+    <title>AskGabolaev</title>
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <meta name="viewport" content="width=device-width; initial-scale=1">
@@ -23,7 +23,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand"
-               style="font-size: 30px; font-family: 'Ubuntu Mono derivative Powerline'; font-weight: bold" href="/">ask_gabolaev</a>
+               style="font-size: 30px; font-family: 'Ubuntu Mono derivative Powerline'; font-weight: bold" href="/">AskGabolaev</a>
         </div>
         <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false"
              style="height: 2px;">
@@ -43,15 +43,15 @@
                     <div class="textOnNav">
                         <h5 class="list-group-item-heading">{{ user.username }}</h5>
                         <div class="smallctrl">
-                            <a href="{% url 'ask:settings' %}">Настройки</a>
-                            <a href="{% url 'ask:signout' %}">Выход</a>
+                            <a href="{% url 'ask:settings' %}">Settings</a>
+                            <a href="{% url 'ask:signout' %}">Log out</a>
                         </div>
                     </div>
                 </ul>
                 <ul class="navbar-form navbar-right">
                     <div class="btn-group" role="group" aria-label="...">
                         <a href="{% url 'ask:new' %}">
-                            <button type="button" class="btn btn-success">ЗАДАТЬ ВОПРОС</button>
+                            <button type="button" class="btn btn-success">ASK!</button>
                         </a>
                     </div>
                 </ul>
@@ -59,14 +59,14 @@
                 <ul class="navbar-form navbar-right">
                     <div class="btn-group" role="group" aria-label="...">
                         <a href="{% url 'ask:signup' %}">
-                            <button type="button" class="btn btn-success">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+                            <button type="button" class="btn btn-success">Sign up</button>
                         </a>
                     </div>
                 </ul>
                 <ul class="navbar-form navbar-right">
                     <div class="btn-group" role="group" aria-label="...">
                         <a href="/signin/?next={% if request.GET.next %}{{ request.GET.next }}{% else %}{{ request.path }}{% endif %}">
-                            <button type="button" class="btn btn-primary">ВОЙТИ</button>
+                            <button type="button" class="btn btn-primary">Sign in</button>
                         </a>
                     </div>
                 </ul>
@@ -99,26 +99,26 @@
         <div class="col-sm-2 sidenav">
             <div class="well well-sm">
                 <div class="hottest">
-                    <h4>Популярно сейчас</h4>
+                    <h4>Hottest</h4>
                 </div>
                 <hr>
                 <ul class="cloud">
-                    <li><a class="pr2" href="#">Электротехника</a></li>
-                    <li><a class="pr4" href="#">Технопарк</a></li>
-                    <li><a class="pr1" href="#">Математика</a></li>
+                    <li><a class="pr2" href="#">ElectricalTechnologues</a></li>
+                    <li><a class="pr4" href="#">Technoparks</a></li>
+                    <li><a class="pr1" href="#">Math</a></li>
                     <li><a class="pr4" href="#">ML</a></li>
                     <li><a class="pr7" href="#">Django</a></li>
                     <li><a class="pr3" href="#">Linux</a></li>
-                    <li><a class="pr5" href="/question/tag/algo/">Алгоритмы</a></li>
-                    <li><a class="pr7" href="#">С++</a></li>
-                    <li><a class="pr1" href="#">Вёрстка</a></li>
+                    <li><a class="pr5" href="#">Algorithms</a></li>
+                    <li><a class="pr7" href="#">C++</a></li>
+                    <li><a class="pr1" href="#">Templates</a></li>
                     <li><a class="pr4" href="#">Python</a></li>
 
                 </ul>
             </div>
             <div class="well well-sm">
                 <div class="hottest">
-                    <h4>Лидеры</h4>
+                    <h4>Leaderbord</h4>
                 </div>
                 <hr>
                 <ul class="rating">
