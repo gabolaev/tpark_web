@@ -34,6 +34,8 @@ def settings(request):
             fillErrors(form.errors, errors)
     else:
         form = UserSettingsForm
+        for i in form.base_fields:
+            form.base_fields[i].widget.attrs['placeholder'] = getattr(request.user, i)
     return render(request, 'settings.html', {'form': form, 'messages': errors})
 
 
@@ -55,10 +57,11 @@ def signin(request):
     return render(request, 'signin.html', {'form': form, 'messages': errors})
 
 
-@login_required(login_url='/signin/')
 def signout(request):
+    if not request.user.is_authenticated:
+        raise Http404
     logout(request)
-    return redirect('/')
+    return redirect(request.GET['from'])
 
 
 def signup(request):

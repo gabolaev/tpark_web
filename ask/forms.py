@@ -52,6 +52,19 @@ class UserSignInForm(forms.ModelForm):
 
 
 class UserSettingsForm(forms.ModelForm):
+    first_name = forms.CharField(required=False,
+                                 validators=[textValidator],
+                                 widget=forms.TextInput(attrs={'class': 'form-control',
+                                                               'minlength': 2,
+                                                               'maxlength': 30,
+                                                               'placeholder': 'First name'}))
+    last_name = forms.CharField(required=False,
+                                validators=[textValidator],
+                                widget=forms.TextInput(attrs={'class': 'form-control',
+                                                              'minlength': 2,
+                                                              'maxlength': 30,
+                                                              'placeholder': 'Last name'}))
+
     username = forms.CharField(validators=[textValidator],
                                required=False,
                                widget=forms.TextInput(attrs={'class': 'form-control',
@@ -63,12 +76,12 @@ class UserSettingsForm(forms.ModelForm):
                              widget=forms.EmailInput(attrs={'class': 'form-control',
                                                             'placeholder': 'E-mail'}))
 
-    avatar = forms.ImageField(required=False,
+    upload = forms.ImageField(required=False,
                               widget=forms.FileInput)
 
     class Meta:
         model = User
-        fields = ('username', 'email',)
+        fields = ('first_name', 'last_name','username', 'email',)
 
 
 class NewQuestionForm(forms.ModelForm):

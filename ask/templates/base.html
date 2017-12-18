@@ -44,7 +44,7 @@
                         <h5 class="list-group-item-heading">{{ user.username }}</h5>
                         <div class="smallctrl">
                             <a href="{% url 'ask:settings' %}">Settings</a>
-                            <a href="{% url 'ask:signout' %}">Log out</a>
+                            <a href="/signout/?from={{ request.get_full_path }}">Sign out</a>
                         </div>
                     </div>
                 </ul>
