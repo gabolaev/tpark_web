@@ -102,7 +102,9 @@ def questions_by_tag(request, **kwargs):
 def hottest(request):
     return renderFeedWithPagination(request,
                                     Question.objects.hottest(),
-                                    link='/',)
+                                    header='Hottest',
+                                    link='/',
+                                    link_text='Newest')
 
 
 @login_required(login_url='/signin/')
@@ -156,10 +158,10 @@ def write_answer(request, question_id):
 
 
 def newest(request):
-    return renderFeedWithPagination(request, Question.objects.newest())
+    return renderFeedWithPagination(request, Question.objects.newest(), header='Newest')
 
 
-def renderFeedWithPagination(request, questions_list, link='/hot'):
+def renderFeedWithPagination(request, questions_list, header, link='/hot', link_text="Hottest"):
     paginator = Paginator(questions_list, 30)
 
     page = request.GET.get('page')
@@ -171,5 +173,7 @@ def renderFeedWithPagination(request, questions_list, link='/hot'):
         questions = paginator.page(paginator.num_pages)
 
     return render(request, 'feed.html',
-                  {'questions_list': questions,
-                   'link': link})
+                  {'header': header,
+                   'questions_list': questions,
+                   'link': link,
+                   'link_text': link_text})
