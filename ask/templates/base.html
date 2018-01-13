@@ -4,7 +4,7 @@
 
 <head>
     <title>AskGabolaev</title>
-    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" >
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <meta name="viewport" content="width=device-width; initial-scale=1">
 
@@ -85,14 +85,14 @@
 </div>
 <div class="container">
     <div class="col-md-10 text-left">
-        {% block content %}{% endblock %}
-        <div class="main">
+    <div class="main">
             {% for i in messages %}
                 <div class="alert alert-danger" role="alert">
                     <p>{{ i }}</p>
                 </div>
             {% endfor %}
         </div>
+        {% block content %}{% endblock %}
     </div>
 
     {% block tops %}
@@ -134,7 +134,7 @@
         </div>
     {% endblock %}
 </div>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="{% static 'jquery/jquery-latest.js' %}"></script>
 <script src="{% static 'js/bootstrap.js' %}"></script>
 </body>
 

@@ -11,15 +11,16 @@
 /*.label .label-info:hover{*/
     /*background-color: #c9302c;*/
 /*}*/
-.questionPreviewText {
-    display: block;
-    height: 60px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+/*.questionPreviewText {*/
+    /*display: block;*/
+    /*height: 60px;*/
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
+/*}*/
 
 .avatarOnPost {
     height: 64px;
+    border-radius: 50%;
 }
 
 .avatarOnNav {

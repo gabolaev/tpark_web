@@ -22,8 +22,8 @@
                     <h5>{{ q.date }}</h5>
                 </div>
                 <hr>
-                <p class="questionPreviewText">{{ q.text }}</p>
-                <h6> . . . </h6>
+                    {{ q.text|truncatechars:300 }}
+                <br>
                 {% for tag in q.tags.all %}
                     <span class="label label-danger">{{ tag.title }}</span>
                 {% endfor %}

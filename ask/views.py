@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import Http404
+from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import render, redirect
 
 from ask.models import *
@@ -20,20 +20,17 @@ def fillErrors(formErrors, errors):
 @login_required(login_url='/signin/')
 def settings(request):
     errors = []
+    form = UserSettingsForm
     if request.method == 'POST':
-        form = UserSettingsForm(request.POST)
+        form = form(request.POST)
         if form.is_valid():
-            if 'username' in form.changed_data:
-                request.user.username = request.POST['username']
-            if 'email' in form.changed_data:
-                request.user.email = request.POST['email']
-
+            for changedField in form.changed_data:
+                setattr(request.user, changedField, request.POST[changedField])
             request.user.save()
-            return redirect('/')
+            return redirect('/profile/edit/')
         else:
             fillErrors(form.errors, errors)
     else:
-        form = UserSettingsForm
         for i in form.base_fields:
             form.base_fields[i].widget.attrs['placeholder'] = getattr(request.user, i)
     return render(request, 'settings.html', {'form': form, 'messages': errors})
@@ -42,7 +39,6 @@ def settings(request):
 def signin(request):
     errors = []
     form = UserSignInForm
-
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -66,8 +62,9 @@ def signout(request):
 
 def signup(request):
     errors = []
+    form = UserSignUpForm
     if request.method == 'POST':
-        form = UserSignUpForm(request.POST)
+        form = form(request.POST)
         if request.POST['password'] != request.POST['password_confirmation']:
             errors.append('Passwords don\'t match')
         elif form.is_valid():
@@ -83,7 +80,6 @@ def signup(request):
             fillErrors(form.errors, errors)
     else:
         logout(request)
-        form = UserSignUpForm
 
     return render(request, 'signup.html', {'form': form, 'messages': errors})
 
@@ -113,8 +109,9 @@ def hottest(request):
 @login_required(login_url='/signin/')
 def new(request):
     errors = []
+    form = NewQuestionForm
     if request.method == 'POST':
-        form = NewQuestionForm(request.POST)
+        form = form(request.POST)
 
         if form.is_valid():
             question = Question.objects.create(author=request.user,
@@ -130,8 +127,6 @@ def new(request):
             return question_detailed(request, question.id)
         else:
             fillErrors(form.errors, errors)
-    else:
-        form = NewQuestionForm
 
     return render(request, 'new_question.html', {'form': form, 'messages': errors})
 
@@ -139,9 +134,10 @@ def new(request):
 @login_required(login_url='/signin/')
 def write_answer(request, question_id):
     errors = []
+    form = WriteAnswerForm
     if Question.objects.filter(id=question_id).exists():
         if request.method == 'POST':
-            form = WriteAnswerForm(request.POST)
+            form = form(request.POST)
             if form.is_valid():
                 answeredQuestion = Question.objects.by_id(question_id)[0]
                 newAnswer = Answer.objects.create(author=request.user,
@@ -152,8 +148,6 @@ def write_answer(request, question_id):
                 return redirect(f'/questions/{ question_id }/#{ newAnswer.id }')
             else:
                 fillErrors(form.errors, errors)
-        else:
-            form = WriteAnswerForm
 
         return render(request, 'answer.html', {'form': form, 'messages': errors})
     else:

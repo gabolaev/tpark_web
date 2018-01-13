@@ -3,8 +3,10 @@ from django.core.validators import RegexValidator
 
 from ask.models import User, Question, Answer
 
-textValidator = RegexValidator(r"[a-zA-Z]",
+textValidator = RegexValidator(r"[а-яА-Яa-zA-Z]",
                                "Text should contain letters")
+tagsValidator = RegexValidator(r"[а-яА-Яa-zA-Z]",
+                               "Tags should contain letters")
 passwordValidator = RegexValidator(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$",
                                    "Password should contain minimum eight characters, at least one letter and one number")
 
@@ -81,7 +83,7 @@ class UserSettingsForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name','username', 'email',)
+        fields = ('first_name', 'last_name', 'username', 'email',)
 
 
 class NewQuestionForm(forms.ModelForm):
@@ -96,7 +98,8 @@ class NewQuestionForm(forms.ModelForm):
                                                         'minlength': 30,
                                                         'placeholder': 'And here tell about your question in more detail'}))
 
-    tags = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
+    tags = forms.CharField(validators=[tagsValidator],
+                           widget=forms.TextInput(attrs={'class': 'form-control',
                                                          'placeholder': 'List here tags by separating them with a '
                                                                         'space (the first 10 will be saved)'}))
 
