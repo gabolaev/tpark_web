@@ -1,0 +1,49 @@
+
+.avatar {
+    margin: 4px 0 0 0;
+    height: 128px;
+    float: left;
+}
+
+.field_name{
+    background-color: #2aabd2;
+}
+
+.profile-info {
+    margin: 0 0 0 145px;
+}
+
+.page-header{
+    margin: 40px 15px 0;
+}
+
+table{
+    width: 100%;
+}
+
+td{
+    width: 40%;
+    vertical-align: top;
+}
+
+th{
+    text-align: center;
+}
+
+.questions{
+    padding-right: 10px;
+}
+
+.answers{
+    padding-left: 10px;
+}
+
+.activity{
+    margin: 11px 0 0 0;
+}
+
+.table{
+    table-layout: fixed;
+    width: 100%;
+}
+

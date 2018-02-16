@@ -8,7 +8,7 @@ textValidator = RegexValidator(r"[а-яА-Яa-zA-Z]",
 tagsValidator = RegexValidator(r"[а-яА-Яa-zA-Z]",
                                "Tags should contain letters")
 passwordValidator = RegexValidator(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$",
-                                   "Password should contain minimum eight characters, at least one letter and one number")
+                                   "Password should contain minimum 8 characters, at least 1 letter and 1 number")
 
 
 class UserSignUpForm(forms.ModelForm):

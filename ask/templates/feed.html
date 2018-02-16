@@ -27,11 +27,6 @@
                 {% for tag in q.tags.all %}
                     <span class="label label-danger">{{ tag.title }}</span>
                 {% endfor %}
-                <hr>
-                <div class="likes">
-                    <form action="" class="btn btn-default glyphicon glyphicon-thumbs-up">{{ q.likes }}</form>
-                    <form action="" class="btn btn-default glyphicon glyphicon-thumbs-down">{{ q.dislikes }}</form>
-                </div>
             </a>
         </div>
     {% endfor %}

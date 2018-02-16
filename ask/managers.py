@@ -3,8 +3,8 @@ from django.db import models
 
 
 class UserManager(AbstractUserManager):
-    def by_username(self, findUname):
-        return self.all().filter(username=findUname)
+    def by_username(self, username):
+        return self.all().filter(username=username).first()
 
 
 class QuestionManager(models.Manager):
@@ -16,6 +16,9 @@ class QuestionManager(models.Manager):
 
     def by_id(self, qid):
         return self.all().filter(id=qid)
+
+    # def by_username(self, uid):
+    #     return self.all().filter(author=uid)
 
 
 class TagManager(models.Manager):

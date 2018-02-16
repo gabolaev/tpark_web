@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import Http404, HttpResponseForbidden
+from django.http import Http404
 from django.shortcuts import render, redirect
 
 from ask.models import *
@@ -15,6 +15,15 @@ def fillErrors(formErrors, errors):
     for i in formErrors:
         formattedFieldName = i.replace('_', ' ')
         errors.append(f' { formattedFieldName } field error: {formErrors[i][0]}')
+
+
+@login_required(login_url='/signin/')
+def profile(request, username):
+    user = User.objects.by_username(username)
+    if user is not None:
+        return render(request, 'profile.html', {'profile': user})
+    else:
+        raise Http404
 
 
 @login_required(login_url='/signin/')

@@ -14,5 +14,5 @@ urlpatterns = [
     url(r'^signout/.*?$', signout, name='signout'),
     url(r'^signup$', signup, name='signup'),
     url(r'^profile/edit/', settings, name='settings'),
-    # url(r'^parse_request/.*', requestsPrint),
+    url(r'^(?P<username>[a-zA-Zа-яА-Я_\-\.0-9]+?)$', profile, name='profile')
 ]

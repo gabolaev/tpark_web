@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block headerName %}
+    <h1>{{ profile.username }}</h1>
+{% endblock %}
+
+{% block content %}
+    <img class="avatar" src="{% static profile.upload %}">
+    <div class="profile-info">
+        <h4><i>First name: </i> {{ profile.first_name }}</h4>
+        <h4><i>Last name: </i>{{ profile.last_name }}</h4>
+        <h4><i>Email: </i>{{ profile.email }}</h4>
+        <hr>
+        <h4>
+            <i>Questions: </i>{{ profile.question_set.all | length }}
+            <i>Answers: </i>{{ profile.answer_set.all | length }}
+        </h4>
+    </div>
+    <hr>
+    <div class="activity">
+        <table>
+            <tr>
+                <th><h3>Questions</h3></th>
+                <th><h3>Answers</h3></th>
+            </tr>
+            <td class="questions">
+                {% for q in profile.question_set.all reversed %}
+                    <div class="list-group">
+                        <a href="/questions/{{ q.id }}/" class="list-group-item">
+                            <div class="header">
+                                <h4 class="list-group-item-heading">{{ q.title }}</h4>
+                                <h5>{{ q.date }}</h5>
+                            </div>
+                            {% for tag in q.tags.all %}
+                                <span class="label label-danger">{{ tag.title }}</span>
+                            {% endfor %}
+                        </a>
+                    </div>
+                {% endfor %}
+            </td>
+            <td>
+                {% for a in profile.answer_set.all reversed %}
+                    <div class="questions list-group">
+                        <a href="/questions/{{ a.question_id }}/#{{ a.id }}" class="list-group-item">
+                            <h5>{{ a.question.title }}</h5>
+                            <p>{{ a.text }}</p>
+                        </a>
+                    </div>
+                {% endfor %}
+            </td>
+        </table>
+    </div>
+
+{% endblock %}
+
+{#{% block tops %}{% endblock %}#}

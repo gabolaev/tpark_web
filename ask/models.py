@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
-
+from django.db import models
 from ask.managers import *
 
 
@@ -42,7 +42,8 @@ class Answer(models.Model):
     author = models.ForeignKey(User, null=False, verbose_name='Автор ответа')
     date = models.DateTimeField(default=timezone.now, verbose_name='Время ответа')
 
-    question = models.ForeignKey(Question, related_name='answers', verbose_name='Вопрос, на который выполняется ответ')
+    question = models.ForeignKey(Question, related_name='answers', verbose_name='Вопрос, на который выполняется ответ',
+                                 on_delete=models.CASCADE)
     text = models.TextField(verbose_name='Полный текст вопроса')
     rate = models.IntegerField(default=0, null=False, verbose_name='Рейтинг')
 
