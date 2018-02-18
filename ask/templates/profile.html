@@ -30,9 +30,13 @@
                 <th><h3>Answers</h3></th>
             </tr>
             <td class="questions">
-                {% for q in profile.question_set.all reversed %}
+                {% for q in profile.question_set.hottest %}
                     <div class="list-group">
                         <a href="/questions/{{ q.id }}/" class="list-group-item">
+                            <div class="rate">
+                                <img class="rate-icon" src="{% static 'img/stats.png' %}" alt="">
+                                {{ q.rate }}
+                            </div>
                             <div class="header">
                                 <h4 class="list-group-item-heading">{{ q.title }}</h4>
                                 <h5>{{ q.date }}</h5>
@@ -45,10 +49,15 @@
                 {% endfor %}
             </td>
             <td>
-                {% for a in profile.answer_set.all reversed %}
+                {% for a in profile.answer_set.hottest%}
                     <div class="questions list-group">
                         <a href="/questions/{{ a.question_id }}/#{{ a.id }}" class="list-group-item">
-                            <h5>{{ a.question.title }}</h5>
+                            <div class="rate">
+                                <img class="rate-icon" src="{% static 'img/stats.png' %}" alt="">
+                                {{ a.rate }}
+                            </div>
+                            <h4>{{ a.question.title }}</h4>
+                            <hr>
                             <p>{{ a.text }}</p>
                         </a>
                     </div>

@@ -13,6 +13,10 @@
     {% for q in questions_list %}
         <div class="list-group">
             <a href="/questions/{{ q.id }}/" class="list-group-item">
+                <div class="rate">
+                    <img class="rate-icon" src="{% static 'img/stats.png' %}" alt="">
+                    {{ q.rate }}
+                </div>
                 <figure class="imgWrap">
                     <img class="avatarOnPost" src="{% static q.author.upload %}" alt="">
                     <figcaption>{{ q.author.username }}</figcaption>

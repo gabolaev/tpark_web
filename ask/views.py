@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views import View
 
 from ask.models import *
 from .forms import *
@@ -101,6 +104,44 @@ def question_detailed(request, question_id):
         raise Http404
 
 
+class VotesView(View):
+    model = None  # Data Model - Articles or Comments
+    vote_type = None  # Vote type Like/Dislike
+
+    def post(self, request, pk):
+        obj = self.model.objects.get(pk=pk)
+        #        GenericForeignKey does not support get_or_create
+        try:
+            like_dislike = Like.objects.get(content_type=ContentType.objects.get_for_model(obj),
+                                            object_id=obj.id,
+                                            user=request.user)
+
+            if like_dislike.vote is not self.vote_type:
+                like_dislike.vote = self.vote_type
+                obj.rate += 2*self.vote_type
+                like_dislike.save(update_fields=['vote'])
+                result = True
+            else:
+                obj.rate -= self.vote_type
+                like_dislike.delete()
+                result = False
+        except Like.DoesNotExist:
+            obj.votes.create(user=request.user, vote=self.vote_type)
+            obj.rate += self.vote_type
+            result = True
+
+        obj.save()
+        return HttpResponse(
+            json.dumps({
+                "result": result,
+                "like_count": obj.votes.likes().count(),
+                "dislike_count": obj.votes.dislikes().count(),
+                "sum_rating": obj.votes.sum_rating()
+            }),
+            content_type="application/json"
+        )
+
+
 def questions_by_tag(request, **kwargs):
     return renderFeedWithPagination(request,
                                     header="By tag: {}".format(kwargs.get('tag_str')),
@@ -110,7 +151,7 @@ def questions_by_tag(request, **kwargs):
 def hottest(request):
     return renderFeedWithPagination(request,
                                     Question.objects.hottest(),
-                                    header='Hottest',
+                                    header='Hottest🔥',
                                     link='/',
                                     link_text='Newest')
 
@@ -167,7 +208,7 @@ def newest(request):
     return renderFeedWithPagination(request, Question.objects.newest(), header='Newest')
 
 
-def renderFeedWithPagination(request, questions_list, header, link='/hot', link_text="Hottest"):
+def renderFeedWithPagination(request, questions_list, header, link='/hot', link_text="Hottest🔥"):
     paginator = Paginator(questions_list, 30)
 
     page = request.GET.get('page')

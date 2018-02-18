@@ -21,9 +21,9 @@
         <div class="txtWrap">
             <h4 class="list-group-item-heading">{{ question.title }}</h4>
             <h5>{{ question.date }}</h5>
-            <div class="likes">
-                <form action="" class="btn btn-default glyphicon glyphicon-thumbs-up">{{ question.likes }}</form>
-                <form action="" class="btn btn-default glyphicon glyphicon-thumbs-down">{{ question.dislikes }}</form>
+            <div class="react">
+                <button data-id="{{ question.id }}" data-type="question" data-action="like" class="btn btn-default glyphicon glyphicon-thumbs-up">{{ question.votes.likes.count }}</button>
+                <button data-id="{{ question.id }}" data-type="question" data-action="dislike" class="btn btn-default glyphicon glyphicon-thumbs-down">{{ question.votes.dislikes.count }}</button>
                 <a href="/questions/{{ question.id }}/write_answer/">
                     <button type="button" class="btn btn-success">Answer</button>
                 </a>
@@ -37,7 +37,7 @@
             </a>
         {% endfor %}
     </div>
-    {% for answer in question.answers.all %}
+    {% for answer in question.answers.hottest %}
         <div class="list-group">
             <div id="{{ answer.id }}" class="list-group-item">
                 <a href="{% url 'ask:profile' answer.author.username %}">
@@ -51,10 +51,9 @@
                         <b>{{ answer.text }}</b>
                     </div>
                     <hr>
-                    <div class="answer likes">
-                        <form action="" class="btn btn-success glyphicon glyphicon-thumbs-up">{{ answer.likes }}</form>
-                        <form action=""
-                              class="btn btn-danger glyphicon glyphicon-thumbs-down">{{ answer.dislikes }}</form>
+                    <div class="answer react">
+                        <button data-id="{{ answer.id }}" data-type="answer" data-action="like" class="btn btn-success glyphicon glyphicon-thumbs-up">{{ answer.votes.likes.count }}</button>
+                        <button data-id="{{ answer.id }}" data-type="answer" data-action="dislike" onclick="" class="btn btn-danger glyphicon glyphicon-thumbs-down">{{ answer.votes.dislikes.count }}</button>
                     </div>
                     {{ answer.date }}
                 </div>
@@ -62,3 +61,9 @@
         </div>
     {% endfor %}
 {% endblock %}
+
+{% block custom_javascript %}
+    <script src="{% static 'js/like.js' %}"></script>
+{% endblock %}
+
+
